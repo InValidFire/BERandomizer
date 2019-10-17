@@ -1,9 +1,10 @@
-import subprocess, sys
+import subprocess, sys, time
 print("Starting update script")
 try:
-    subprocess.run('git checkout .',shell=True)
-    print("Update Complete!")
+    subprocess.run('git checkout update .',shell=True)
+    print("Update Complete! Restarting!")
+    time.sleep(3)
     subprocess.run(['python','start.py'],shell=True)
     sys.exit()
 except:
-    print("Update failed. :c")
+    print("Update failed. Try downloading manually. :c")

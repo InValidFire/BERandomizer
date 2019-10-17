@@ -1,4 +1,4 @@
 @echo off
-title Randomizer
+title BERandomizer
 python start.py
 pause
