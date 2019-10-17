@@ -1,0 +1,11 @@
+10/15/2019 - Day One
+- Initial code created, randomized recipes and archived into .mcpack
+
+10/16/2019
+- Split initial code into functions, improved readability
+- Now can load multiple datasets
+- Added seeded generation
+
+10/17/2019
+- Added automatic updates for those who 'git clone' my repository
+    - Will be toggleable later
