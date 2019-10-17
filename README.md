@@ -15,6 +15,7 @@ Personal project aimed to randomize everything possible within Minecraft Bedrock
     - Accepts strings or numbers, go wild.
         - Y'all know how this works. :p
 ## Planned Features
+- Add data values to documentation
 - Automatically download data if nothing is found
 - More error handling
     - Verify data has manifest.json

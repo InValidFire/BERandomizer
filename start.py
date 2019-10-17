@@ -5,6 +5,10 @@ from modules.debug import debug
 
 #directory handling
 subdirs = [o for o in os.listdir(dirs.data) if os.path.isdir(os.path.join(dirs.data,o))]
+if(len(subdirs)==0):
+    print("No data found in the \\data directory.\nExtract Behavior Pack data in a sub-folder of \\data to continue.")
+    print("\nEx. data/Vanilla/Vanilla_Behavior_Pack_1.12.0/(data contents)")
+    exit()
 debug("Subdirs: "+str(subdirs))
 datas = {}
 if (len(subdirs)>1):
