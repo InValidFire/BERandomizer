@@ -1,34 +1,43 @@
 from urllib.request import urlopen
-currentString = ""
-branchString = ""
+import subprocess, sys, os
+currentString = "Non-Git"
+branchString = "Non-Git"
 updateVar = True
 def updateToggle(mode=bool):
     global updateVar
     updateVar = mode
 
-def updateCheck():
+def updateGit():
     if(updateVar==True):
         global currentString
         global branchString
         link = "https://raw.githubusercontent.com/InValidFire/BERandomizer/update/version.txt"
-        try:
-            with open("version.txt") as file:
-                currentVersion = file.read().split('.')
-                currentMajor = int(currentVersion[0])
-                currentMinor = int(currentVersion[1])
-                currentPatch = int(currentVersion[2])
-                currentString = ".".join([str(currentMajor),str(currentMinor),str(currentPatch)])
-        except:
+        per = '%'
+        subprocess.run('git fetch',shell=True)
+        branchCommit = subprocess.check_output('git log -n 1 --date=raw-local --pretty=format:"'+per+'h '+per+'ad" origin/update',shell=True)
+        localCommit = subprocess.check_output('git log -n 1 --date=raw-local --pretty=format:"'+per+'h '+per+'ad"',shell=True)
+        branchCommit = branchCommit.split()
+        localCommit = localCommit.split()
+        branchString = branchCommit[0].decode('utf-8')
+        currentString = localCommit[0].decode('utf-8')
+        if(int(branchCommit[1])>int(localCommit[1])):
             return(True)
-        with urlopen(link) as branch:
-            branchVersion = branch.read().decode('utf-8').split('.')
-            branchMajor = int(branchVersion[0])
-            branchMinor = int(branchVersion[1])
-            branchPatch = int(branchVersion[2])
-            branchString = ".".join([str(branchMajor),str(branchMinor),str(branchPatch)])
-
-        #needs to catch if currentVersion is greater than branchVersion, and disable auto updating (for devs)
-        if(branchMajor<=currentMajor and branchMinor<=currentMinor and branchPatch<=currentPatch):
-            return(False)
         else:
-            return(True)
+            return(False)
+
+def update():
+    if(os.path.exists('.git')==True):
+        print("Checking for updates...", end="",flush=True)
+        if(updateGit()==True):
+            print("\tUpdate found")
+            update = input("Would you like to install?")
+            if('y' in update.lower()):
+                subprocess.run(['python','update.py'],shell=True)
+                sys.exit()
+            if('n' in update.lower()):
+                pass
+        else:
+            print("\tNo updates available")
+    else:
+        updateToggle(False)
+        print("Automatic updates disabled, No local git repository found.")
