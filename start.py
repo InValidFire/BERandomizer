@@ -56,4 +56,4 @@ recipes.recipestart()
 #pack it up! Call UPS!
 dirs.package()
 dirs.cleanup("\\newdata")
-print("Completed using seed: "+dirs.seed)
+print("Completed using seed: "+str(dirs.seed))
