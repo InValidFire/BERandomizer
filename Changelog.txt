@@ -7,5 +7,5 @@
 - Added seeded generation
 
 10/17/2019
-- Added automatic updates for those who 'git clone' my repository
+- Added automatic updates for those who 'git clone' the repository
     - Will be toggleable later
