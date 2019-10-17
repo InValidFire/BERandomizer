@@ -39,4 +39,4 @@ def update():
             print("\tNo updates available")
     else:
         updateToggle(False)
-        print("Automatic updates disabled, No local git repository found.")
+        print("Automatic updates disabled, was not downloaded via 'git clone'.")
