@@ -1,13 +1,13 @@
 from urllib.request import urlopen
 currentString = ""
 branchString = ""
-updateEnabled = True
+updateVar = True
 def updateToggle(mode=bool):
-    global updateEnabled
-    updateEnabled = mode
+    global updateVar
+    updateVar = mode
 
 def updateCheck():
-    if(updateEnabled==True):
+    if(updateVar==True):
         global currentString
         global branchString
         link = "https://raw.githubusercontent.com/InValidFire/BERandomizer/update/version.txt"

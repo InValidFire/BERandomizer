@@ -52,6 +52,7 @@ elif(len(subdirs)==1):
 print("-----BERandomizer-----")
 print("Made by @InValidFire")
 print("Version: "+autoupdate.currentString)
+print("Automatic Updates: "+str(autoupdate.updateVar))
 print("Successfully loaded "+str(len(subdirs))+" datasets.")
 print("Selected dataset: "+dirs.dataFolder)
 print("Found "+str(dirs.countDir(dirs.data+"\\"+dirs.dataFolder+"\\recipes"))+" recipes")
