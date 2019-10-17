@@ -36,8 +36,10 @@ Personal project aimed to randomize everything possible within Minecraft Bedrock
     - blocks?
     - randomly generated custom blocks/items/entities?
         - this one will be fun!
+
 ## Usage
 In order to use this, make sure y'all have Python installed, once that is done, download this repo, extract if necessary, and click on Run.bat to start the script.
+Remember to load your datasets
 
-Remember to place behavior pack data in data/pickaname/(extract here) otherwise you'll get errors.
+For Automatic Updates to work, you'll need to `git clone` the repository and run it from there. If this is not done and you just download the .zip, you will not recieve Automatic Updates
 Any questions on anything, contact me on Discord with Fire#4224
