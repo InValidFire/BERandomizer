@@ -37,6 +37,12 @@ def deldir(path):
 def copy(source,dest):
     shutil.copy(source,dest)
 
+def countDir(path):
+    i = 0
+    for item in os.listdir(path):
+        i = i+1
+    return i
+
 def archive(source,dest):
     shutil.make_archive(dest,"zip",source)
 
@@ -50,15 +56,15 @@ def package():
     with open(home+"\\newdata\\"+dataFolder+"\\manifest.json","w") as json_file:
         jsondata['header']['uuid'] = str(uuid.uuid4())
         jsondata['header']['name'] = "RandomRock - Seed: "+str(seed)
-        jsondata['header']['description'] = "Made by InValidFire"
+        jsondata['header']['description'] = "Made by @InValidFire"
         jsondata['modules'][0]['uuid'] = str(uuid.uuid4())
-        jsondata['modules'][0]['description'] = "Made by InValidFire"
+        jsondata['modules'][0]['description'] = "Made by @InValidFire"
         json.dump(jsondata,json_file,indent=4)
         json_file.close()
     print("Archiving into .mcpack")
-    archive(home+"\\newdata\\"+dataFolder,home+"\\RandomRock - "+str(seed))
+    archive(home+"\\newdata\\"+dataFolder,home+"\\BERandomizer - "+str(seed)+" - "+dataFolder)
     #shutil.make_archive(home+"\\Randomized Recipes - "+str(seed),"zip",home+"\\newdata\\"+dataFolder)
-    os.rename(home+"\\RandomRock - "+str(seed)+".zip",home+"\\RandomRock - "+str(seed)+".mcpack")
+    os.rename(home+"\\BERandomizer - "+str(seed)+" - "+dataFolder+".zip",home+"\\BERandomizer - "+str(seed)+" - "+dataFolder+".mcpack")
 
 def cleanup(path):
     print("Cleaning up")
