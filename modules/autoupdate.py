@@ -11,9 +11,8 @@ def updateGit():
     if(updateVar==True):
         global currentString
         global branchString
-        link = "https://raw.githubusercontent.com/InValidFire/BERandomizer/update/version.txt"
         per = '%'
-        subprocess.run('git fetch',shell=True)
+        subprocess.run('git fetch',shell=True,stdout=subprocess.DEVNULL)
         branchCommit = subprocess.check_output('git log -n 1 --date=raw-local --pretty=format:"'+per+'h '+per+'ad" origin/update',shell=True)
         localCommit = subprocess.check_output('git log -n 1 --date=raw-local --pretty=format:"'+per+'h '+per+'ad"',shell=True)
         branchCommit = branchCommit.split()
