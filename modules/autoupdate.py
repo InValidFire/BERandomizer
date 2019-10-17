@@ -1,4 +1,3 @@
-from urllib.request import urlopen
 import subprocess, sys, os
 currentString = "Non-Git"
 branchString = "Non-Git"

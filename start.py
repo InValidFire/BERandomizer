@@ -1,11 +1,11 @@
-import json, os, shutil, random, time, subprocess, sys
+import json, os, random, time, subprocess
 from modules import dirs, recipes, autoupdate
 from modules.debug import debug
 
 #update check
 autoupdate.update()
 
-#directory handling
+#directory handling - move to its own file
 dirs.testdir(dirs.home+"\\data")
 subdirs = [o for o in os.listdir(dirs.data) if os.path.isdir(os.path.join(dirs.data,o))]
 if(len(subdirs)==0):
