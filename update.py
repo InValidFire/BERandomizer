@@ -5,6 +5,7 @@ try:
     subprocess.run('git checkout origin/master .',shell=True)
     print("Update Complete! Restarting!")
     time.sleep(3)
+    subprocess.run('cls',shell=True)
     subprocess.run(['python','start.py'],shell=True)
     sys.exit()
 except:
