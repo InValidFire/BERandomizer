@@ -13,7 +13,7 @@ def updateGit():
         global branchString
         per = '%'
         subprocess.run('git fetch',shell=True,stdout=subprocess.DEVNULL)
-        branchCommit = subprocess.check_output('git log -n 1 --date=raw-local --pretty=format:"'+per+'h '+per+'ad" origin/update',shell=True)
+        branchCommit = subprocess.check_output('git log -n 1 --date=raw-local --pretty=format:"'+per+'h '+per+'ad" origin/master',shell=True)
         localCommit = subprocess.check_output('git log -n 1 --date=raw-local --pretty=format:"'+per+'h '+per+'ad"',shell=True)
         branchCommit = branchCommit.split()
         localCommit = localCommit.split()
