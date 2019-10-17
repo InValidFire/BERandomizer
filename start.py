@@ -3,17 +3,21 @@ from modules import dirs, recipes, autoupdate
 from modules.debug import debug
 
 #update check
-print("Checking for updates...", end="",flush=True)
-if(autoupdate.updateCheck()==True):
-    print("\tUpdate found")
-    update = input("Would you like to install?")
-    if('y' in update.lower()):
-        subprocess.run(['python','update.py'],shell=True)
-        sys.exit()
-    if('n' in update.lower()):
-        pass
+if(os.path.exists('.git')==True):
+    print("Checking for updates...", end="",flush=True)
+    if(autoupdate.updateCheck()==True):
+        print("\tUpdate found")
+        update = input("Would you like to install?")
+        if('y' in update.lower()):
+            subprocess.run(['python','update.py'],shell=True)
+            sys.exit()
+        if('n' in update.lower()):
+            pass
+    else:
+        print("\tNo updates available")
 else:
-    print("\tNo updates available")
+    autoupdate.updateToggle(False)
+    print("Automatic updates disabled, No local git repository found.")
 
 #directory handling
 dirs.testdir(dirs.home+"\\data")
