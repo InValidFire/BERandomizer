@@ -7,6 +7,6 @@ try:
     time.sleep(3)
     subprocess.run('cls',shell=True)
     subprocess.run(['python','start.py'],shell=True)
-    sys.exit()
 except:
     print("Update failed. Try downloading manually. :c")
+sys.exit()
