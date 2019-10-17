@@ -1,9 +1,11 @@
-import json, os, shutil, random, uuid, time
-from modules import dirs
-from modules import recipes
+import json, os, shutil, random, time
+from modules import dirs, recipes, autoupdate
 from modules.debug import debug
 
+autoupdate.updateCheck()
+exit()
 #directory handling
+dirs.testdir(dirs.home+"\\data")
 subdirs = [o for o in os.listdir(dirs.data) if os.path.isdir(os.path.join(dirs.data,o))]
 if(len(subdirs)==0):
     print("No data found in the \\data directory.\nExtract Behavior Pack data in a sub-folder of \\data to continue.")
@@ -16,7 +18,7 @@ if (len(subdirs)>1):
     for data in subdirs:
         datas[i] = data
         i = i+1
-    print("Multiple data directories found:\n")
+    print("Multiple datasets found:\n")
     for data in datas:
         print(str(data)+" - "+str(datas[data]))
     debug("Keys: "+str(datas.keys()))
@@ -25,6 +27,12 @@ if (len(subdirs)>1):
 elif(len(subdirs)==1):
     dirs.setDataFolder(subdirs[0])
     debug(dirs.dataFolder)
+
+#welcome screen
+print("-----BERandomizer-----")
+print("Made by @InValidFire")
+print("Successfully loaded "+str(len(subdirs))+" datasets.")
+print("Data folder: "+dirs.dataFolder)
 
 #seed randomizing
 seed = input("Enter seed to generate (leave blank for random seed): ")
