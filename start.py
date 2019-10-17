@@ -1,9 +1,17 @@
-import json, os, shutil, random, time
+import json, os, shutil, random, time, subprocess, sys
 from modules import dirs, recipes, autoupdate
 from modules.debug import debug
 
-autoupdate.updateCheck()
-exit()
+print("Checking for updates...")
+if(autoupdate.updateCheck()==True):
+    update = input("Found an update, would you like to install?")
+    if('yes' in update.lower()):
+        subprocess.run(['python','update.py'],shell=True)
+        sys.exit()
+    if('no' in update.lower()):
+        pass
+else:
+    print("Running latest version of BERandomizer")
 #directory handling
 dirs.testdir(dirs.home+"\\data")
 subdirs = [o for o in os.listdir(dirs.data) if os.path.isdir(os.path.join(dirs.data,o))]
