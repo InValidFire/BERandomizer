@@ -14,3 +14,7 @@
 - Improved user friendliness
 - Added command system
     - Will likely be reworked later into its own module
+- Reworked dirs variables
+- Reworked a few dirs functions
+- No longer hard coding directories
+- Now erases temp data on boot if found

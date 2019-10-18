@@ -16,7 +16,7 @@ def loaddata(key,data,store): #loads keys from JSON data, storing it in a variab
     if(key in datakeys): #if it finds the key
         id = data[key]['description']['identifier'] #set the id
         output = data[key][loadlist[key]] #set the output
-        dirs.testdir(dirs.newdata+"\\"+dirs.dataFolder)
+        dirs.makedir(dirs.tempDir+"\\"+dirs.datasetFolder) #make temp folder
         if(isinstance(output,list)): #if output is list of dicts
             items = [] #create list of items
             for item in output: #add each item to list
@@ -69,8 +69,8 @@ def scrambledata(key,data,documentation):
 def load():
     #load data
     print("Loading outcomes from data")
-    for file in os.listdir(dirs.data+"/"+dirs.dataFolder+"/recipes"):
-        with open(dirs.data+"/"+dirs.dataFolder+"/recipes/"+file) as json_file:
+    for file in os.listdir(dirs.dataDir+dirs.datasetFolder+"\\recipes"):
+        with open(dirs.dataDir+dirs.datasetFolder+"\\recipes\\"+file) as json_file:
             data = json.load(json_file)
             loaddata('minecraft:recipe_shaped',data,outcomes)
             loaddata('minecraft:recipe_shapeless',data,outcomes)
@@ -81,10 +81,10 @@ def load():
 def scramble():
     #scrambles data
     print("Scrambling data")
-    for file in os.listdir(dirs.newdata+"\\"+dirs.dataFolder+"\\recipes"):
-        with open(dirs.newdata+"\\"+dirs.dataFolder+"\\recipes\\"+file,"r") as json_file:
+    for file in os.listdir(dirs.tempDir+dirs.datasetFolder+"\\recipes"):
+        with open(dirs.tempDir+dirs.datasetFolder+"\\recipes\\"+file,"r") as json_file:
             data = json.load(json_file)
-        with open(dirs.newdata+"\\"+dirs.dataFolder+"\\recipes\\"+file,"w+") as json_file:
+        with open(dirs.tempDir+dirs.datasetFolder+"\\recipes\\"+file,"w+") as json_file:
             try:
                 json.dump(scrambledata('minecraft:recipe_shaped',data,dirs.randomized),json_file,indent=4)
                 json.dump(scrambledata('minecraft:recipe_shapeless',data,dirs.randomized),json_file,indent=4)
@@ -98,6 +98,6 @@ def scramble():
 def recipestart():
     print("Starting recipe randomizing")
     load()
-    dirs.copydir(dirs.data+"\\"+dirs.dataFolder+"\\recipes",dirs.newdata+"\\"+dirs.dataFolder+"\\recipes")
+    dirs.copydir(dirs.dataDir+dirs.datasetFolder+"\\recipes",dirs.tempDir+dirs.datasetFolder+"\\recipes")
     document("Seed",str(dirs.seed),dirs.randomized)
     scramble()

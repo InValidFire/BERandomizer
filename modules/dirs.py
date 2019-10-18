@@ -1,12 +1,13 @@
 import os, shutil, json, uuid
 from modules.debug import debug
 home = os.getcwd()
-data = home+"\\data"
-newdata = home+"\\newdata"
-
+tempFolder = "\\tmp"
+tempDir = home+tempFolder
+dataFolder = "\\data"
+dataDir = home+dataFolder
+datasetFolder = "Not loaded"
 # below is needed to stop compiler warnings, not needed for code functionality
 seed = None
-dataFolder = None
 randomized = None
 vanilla = None
 
@@ -14,25 +15,26 @@ def setSeed(value):
     global seed
     seed = value
 
-def setDataFolder(name):
-    global dataFolder
+def setdatasetFolder(name):
+    global datasetFolder
     global randomized
     global vanilla
-    dataFolder=name
-    debug("updated dataFolder to "+dataFolder)
-    randomized = newdata+"\\"+dataFolder+"\\randomized.txt"
-    vanilla = newdata+"\\"+dataFolder+"\\vanilla.txt"
+    datasetFolder="\\"+name
+    debug("updated datasetFolder to "+datasetFolder)
+    randomized = tempDir+datasetFolder+"\\randomized.txt"
+    vanilla = tempDir+datasetFolder+"\\vanilla.txt"
 
 def copydir(source,dest):
     print("Copying "+source+" to "+dest)
     shutil.copytree(source,dest)
 
-def testdir(path):
+def makedir(path):
     if(not os.path.exists(path)):
         os.makedirs(path)
 
 def deldir(path):
-    shutil.rmtree(home+path)
+    if(os.path.exists(home+path)):
+        shutil.rmtree(home+path)
 
 def copy(source,dest):
     shutil.copy(source,dest)
@@ -48,12 +50,12 @@ def archive(source,dest):
 
 def package():
     print("Copying manifest")
-    copy(home+"\\data\\"+dataFolder+"\\manifest.json",home+"\\newdata\\"+dataFolder)
+    copy(home+"\\data\\"+datasetFolder+"\\manifest.json",tempDir+"\\"+datasetFolder)
     print("Modifying manifest")
-    with open(home+"\\newdata\\"+dataFolder+"\\manifest.json","r") as json_file:
+    with open(tempDir+"\\"+datasetFolder+"\\manifest.json","r") as json_file:
         jsondata = json.load(json_file)
         json_file.close()
-    with open(home+"\\newdata\\"+dataFolder+"\\manifest.json","w") as json_file:
+    with open(tempDir+"\\"+datasetFolder+"\\manifest.json","w") as json_file:
         jsondata['header']['uuid'] = str(uuid.uuid4())
         jsondata['header']['name'] = "RandomRock - Seed: "+str(seed)
         jsondata['header']['description'] = "Made by @InValidFire"
@@ -62,9 +64,8 @@ def package():
         json.dump(jsondata,json_file,indent=4)
         json_file.close()
     print("Archiving into .mcpack")
-    archive(home+"\\newdata\\"+dataFolder,home+"\\BERandomizer - "+str(seed)+" - "+dataFolder)
-    #shutil.make_archive(home+"\\Randomized Recipes - "+str(seed),"zip",home+"\\newdata\\"+dataFolder)
-    os.rename(home+"\\BERandomizer - "+str(seed)+" - "+dataFolder+".zip",home+"\\BERandomizer - "+str(seed)+" - "+dataFolder+".mcpack")
+    archive(tempDir+"\\"+datasetFolder,home+"\\BERandomizer - "+str(seed)+" - "+datasetFolder.replace("\\",""))
+    os.rename(home+"\\BERandomizer - "+str(seed)+" - "+datasetFolder.replace("\\","")+".zip",home+"\\BERandomizer - "+str(seed)+" - "+datasetFolder.replace("\\","")+".mcpack")
 
 def cleanup(path):
     print("Cleaning up")

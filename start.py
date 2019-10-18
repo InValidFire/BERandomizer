@@ -1,9 +1,13 @@
 import json, os, random, time, subprocess, sys
 from modules import dirs, recipes, autoupdate
 from modules.debug import debug
-dirs.testdir(dirs.home+"\\data")
-subdirs = [o for o in os.listdir(dirs.data) if os.path.isdir(os.path.join(dirs.data,o))]
 
+#dirsetup - making sure nothing breaks
+dirs.cleanup(dirs.tempFolder)
+dirs.makedir(dirs.home+dirs.dataFolder)
+subdirs = [o for o in os.listdir(dirs.dataDir) if os.path.isdir(os.path.join(dirs.dataDir,o))]
+
+#controls the header
 def header():
     subprocess.run("cls",shell=True)
     print("-----BERandomizer-----")
@@ -12,22 +16,21 @@ def header():
     print("Automatic Updates: "+str(autoupdate.updateVar))
     print("Seed: "+str(dirs.seed))
     print("Successfully loaded "+str(len(subdirs))+" dataset(s)")
-    print("Selected dataset: "+str(dirs.dataFolder))
+    print("Selected dataset: "+str(dirs.datasetFolder.replace("\\","")))
     print("----------------------")
 
 #update check
-
 autoupdate.update()
 header()
 
 #directory handling - move to its own file
 if(len(subdirs)==0):
-    print("No data found in the \\data directory.\nExtract Behavior Pack data in a sub-folder of \\data to continue.")
-    print("\nEx. data/DATASETNAME/(data contents)")
+    print("No data found in the"+dirs.dataFolder+"directory.\nExtract Behavior Pack data in a sub-folder of "+dirs.dataFolder+" to continue.")
+    print("\nEx. "+dirs.dataFolder+"\\DATASETNAME\\(data contents)")
     exit()
-if(os.path.exists(dirs.data+"\\manifest.json")):
-    print("Found a manifest.json in the data\\ directory. Ensure you extracted into a subfolder of data\\, not directly there.")
-    print("\nEx. data/DATASETNAME/(data contents)")
+if(os.path.exists(dirs.dataDir+"\\manifest.json")):
+    print("Found a manifest.json in the "+dirs.dataFolder+" directory. Ensure you extracted into a subfolder of "+dirs.dataFolder+", not directly there.")
+    print("\nEx. "+dirs.dataFolder+"\\DATASETNAME\\(data contents)")
     exit()
 debug("Subdirs: "+str(subdirs))
 datas = {}
@@ -40,12 +43,12 @@ if (len(subdirs)>1):
     for data in datas:
         print("\t"+str(data)+". "+str(datas[data]))
     debug("Keys: "+str(datas.keys()))
-    dirs.setDataFolder(datas[int(input("Select a number to load dataset: "))])
+    dirs.setdatasetFolder(datas[int(input("Select a number to load dataset: "))])
     subprocess.run("cls",shell=True)
-    debug(dirs.dataFolder)
+    debug(dirs.datasetFolder)
 elif(len(subdirs)==1):
-    dirs.setDataFolder(subdirs[0])
-    debug(dirs.dataFolder)
+    dirs.setdatasetFolder(subdirs[0])
+    debug(dirs.datasetFolder)
 
 #seed initialize
 seed = int(time.time())
@@ -69,7 +72,7 @@ while(True):
         header()
     elif(command.lower()=="randomize"): #starts recipe randomizing -> modules.recipes
         header()
-        print("Found "+str(dirs.countDir(dirs.data+"\\"+dirs.dataFolder+"\\recipes"))+" recipes")
+        print("Found "+str(dirs.countDir(dirs.dataDir+"\\"+dirs.datasetFolder+"\\recipes"))+" recipes")
         print("Randomization Options")
         print("\t1. recipes")
         command = input("Select numbers to randomize: ")
@@ -77,7 +80,7 @@ while(True):
             header()
             recipes.recipestart()
         dirs.package()
-        dirs.cleanup("\\newdata")
+        dirs.cleanup(dirs.tempFolder)
         sys.exit()
     elif(command.lower()=="exit"):
         sys.exit()
@@ -86,5 +89,5 @@ while(True):
 
 #pack it up! Call UPS!
 dirs.package()
-dirs.cleanup("\\newdata")
+dirs.cleanup(tempDir)
 print("Completed using seed: "+str(dirs.seed))
