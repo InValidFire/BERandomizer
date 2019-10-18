@@ -1,6 +1,6 @@
 .git
 __pycache__/
-data/*
+data/
 newdata/
 *.mcpack
 *.zip

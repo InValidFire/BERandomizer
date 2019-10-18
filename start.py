@@ -3,8 +3,8 @@ from modules import dirs, recipes, autoupdate
 from modules.debug import debug
 
 #dirsetup - making sure nothing breaks
-dirs.cleanup(dirs.tempFolder)
-dirs.makedir(dirs.home+dirs.dataFolder)
+dirs.cleanup(dirs.tempFolder) #in case of crash in last run
+dirs.makedir(dirs.home+dirs.dataFolder) #makes data directory if it can't find it
 subdirs = [o for o in os.listdir(dirs.dataDir) if os.path.isdir(os.path.join(dirs.dataDir,o))]
 
 #controls the header
@@ -17,6 +17,7 @@ def header():
     print("Seed: "+str(dirs.seed))
     print("Successfully loaded "+str(len(subdirs))+" dataset(s)")
     print("Selected dataset: "+str(dirs.datasetFolder.replace("\\","")))
+    print("WARNING: Program is in active development, no garauntee of functionality is granted")
     print("----------------------")
 
 #update check

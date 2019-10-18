@@ -50,12 +50,12 @@ def archive(source,dest):
 
 def package():
     print("Copying manifest")
-    copy(home+"\\data\\"+datasetFolder+"\\manifest.json",tempDir+"\\"+datasetFolder)
+    copy(home+dataFolder+datasetFolder+"\\manifest.json",tempDir+datasetFolder)
     print("Modifying manifest")
-    with open(tempDir+"\\"+datasetFolder+"\\manifest.json","r") as json_file:
+    with open(tempDir+datasetFolder+"\\manifest.json","r") as json_file:
         jsondata = json.load(json_file)
         json_file.close()
-    with open(tempDir+"\\"+datasetFolder+"\\manifest.json","w") as json_file:
+    with open(tempDir+datasetFolder+"\\manifest.json","w") as json_file:
         jsondata['header']['uuid'] = str(uuid.uuid4())
         jsondata['header']['name'] = "RandomRock - Seed: "+str(seed)
         jsondata['header']['description'] = "Made by @InValidFire"
@@ -64,7 +64,7 @@ def package():
         json.dump(jsondata,json_file,indent=4)
         json_file.close()
     print("Archiving into .mcpack")
-    archive(tempDir+"\\"+datasetFolder,home+"\\BERandomizer - "+str(seed)+" - "+datasetFolder.replace("\\",""))
+    archive(tempDir+datasetFolder,home+"\\BERandomizer - "+str(seed)+" - "+datasetFolder.replace("\\",""))
     os.rename(home+"\\BERandomizer - "+str(seed)+" - "+datasetFolder.replace("\\","")+".zip",home+"\\BERandomizer - "+str(seed)+" - "+datasetFolder.replace("\\","")+".mcpack")
 
 def cleanup(path):

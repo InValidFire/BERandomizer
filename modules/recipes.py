@@ -68,7 +68,7 @@ def scrambledata(key,data,documentation):
 
 def load():
     #load data
-    print("Loading outcomes from data")
+    print("Loading outcomes from data... ",end="",flush=True)
     for file in os.listdir(dirs.dataDir+dirs.datasetFolder+"\\recipes"):
         with open(dirs.dataDir+dirs.datasetFolder+"\\recipes\\"+file) as json_file:
             data = json.load(json_file)
@@ -76,14 +76,17 @@ def load():
             loaddata('minecraft:recipe_shapeless',data,outcomes)
             loaddata('minecraft:recipe_furnace',data,outcomes)
             loaddata('minecraft:recipe_brewing_mix',data,outcomes)
-    print("Possible outcomes loaded from data")
+    print("Loaded "+str(len(outcomes))+" outcomes.")
+    exit
 
 def scramble():
     #scrambles data
-    print("Scrambling data")
+    i=0
+    print("Scrambling data... ",end="",flush=True)
     for file in os.listdir(dirs.tempDir+dirs.datasetFolder+"\\recipes"):
         with open(dirs.tempDir+dirs.datasetFolder+"\\recipes\\"+file,"r") as json_file:
             data = json.load(json_file)
+            i = i+1
         with open(dirs.tempDir+dirs.datasetFolder+"\\recipes\\"+file,"w+") as json_file:
             try:
                 json.dump(scrambledata('minecraft:recipe_shaped',data,dirs.randomized),json_file,indent=4)
@@ -93,7 +96,7 @@ def scramble():
             except:
                 debug("no action for "+file)
                 pass
-    print("Finished scrambling data")
+    print("Scrambled "+str(i)+" recipes.")
 
 def recipestart():
     print("Starting recipe randomizing")
