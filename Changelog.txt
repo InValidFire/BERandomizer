@@ -9,3 +9,8 @@
 10/17/2019
 - Added automatic updates for those who 'git clone' the repository
     - Will be toggleable later
+
+10/18/2019
+- Improved user friendliness
+- Added command system
+    - Will likely be reworked later into its own module

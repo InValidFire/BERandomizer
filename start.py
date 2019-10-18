@@ -1,13 +1,26 @@
-import json, os, random, time, subprocess
+import json, os, random, time, subprocess, sys
 from modules import dirs, recipes, autoupdate
 from modules.debug import debug
-
-#update check
-autoupdate.update()
-
-#directory handling - move to its own file
 dirs.testdir(dirs.home+"\\data")
 subdirs = [o for o in os.listdir(dirs.data) if os.path.isdir(os.path.join(dirs.data,o))]
+
+def header():
+    subprocess.run("cls",shell=True)
+    print("-----BERandomizer-----")
+    print("Made by @InValidFire")
+    print("Version: "+autoupdate.currentString)
+    print("Automatic Updates: "+str(autoupdate.updateVar))
+    print("Seed: "+str(dirs.seed))
+    print("Successfully loaded "+str(len(subdirs))+" dataset(s)")
+    print("Selected dataset: "+str(dirs.dataFolder))
+    print("----------------------")
+
+#update check
+
+autoupdate.update()
+header()
+
+#directory handling - move to its own file
 if(len(subdirs)==0):
     print("No data found in the \\data directory.\nExtract Behavior Pack data in a sub-folder of \\data to continue.")
     print("\nEx. data/DATASETNAME/(data contents)")
@@ -34,24 +47,42 @@ elif(len(subdirs)==1):
     dirs.setDataFolder(subdirs[0])
     debug(dirs.dataFolder)
 
-#welcome screen
-print("-----BERandomizer-----")
-print("Made by @InValidFire")
-print("Version: "+autoupdate.currentString)
-print("Automatic Updates: "+str(autoupdate.updateVar))
-print("Successfully loaded "+str(len(subdirs))+" datasets.")
-print("Selected dataset: "+dirs.dataFolder)
-print("Found "+str(dirs.countDir(dirs.data+"\\"+dirs.dataFolder+"\\recipes"))+" recipes")
-
-#seed randomizing
-seed = input("Enter seed to generate (leave blank for random seed): ")
-if(len(seed)<=0): #if seed is blank, use system time.
-    seed = int(time.time())
+#seed initialize
+seed = int(time.time())
 dirs.setSeed(seed)
-random.seed(seed)
 
-#starts recipe randomizing -> modules.recipes
-recipes.recipestart()
+#welcome screen
+header()
+print("'help' to view commands\n")
+#command system - move to its own file
+while(True):
+    command = input("Enter a command to continue: ")
+    if(command.lower()=="help"):
+        print("Available commands:\n\tseed - change the used seed\n\trandomize - start randomization process\n\texit - close program")
+    elif(command.lower()=="seed"):
+        seed = input("Enter seed to generate: ")
+        if(len(seed)<=0): #if seed is blank, use system time.
+            seed = int(time.time())
+            dirs.setSeed(seed)
+        dirs.setSeed(seed)
+        random.seed(seed)
+        header()
+    elif(command.lower()=="randomize"): #starts recipe randomizing -> modules.recipes
+        header()
+        print("Found "+str(dirs.countDir(dirs.data+"\\"+dirs.dataFolder+"\\recipes"))+" recipes")
+        print("Randomization Options")
+        print("\t1. recipes")
+        command = input("Select numbers to randomize: ")
+        if("1" in command):
+            header()
+            recipes.recipestart()
+        dirs.package()
+        dirs.cleanup("\\newdata")
+        sys.exit()
+    elif(command.lower()=="exit"):
+        sys.exit()
+    else:
+        print("Command not found, type 'help' for a list of commands.")
 
 #pack it up! Call UPS!
 dirs.package()
