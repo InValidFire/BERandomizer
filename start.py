@@ -28,7 +28,7 @@ header()
 
 #directory handling - move to its own file
 if(len(subdirs)==0):
-    print("No data found in the"+dirs.dataFolder+"directory.\nExtract Behavior Pack data in a sub-folder of "+dirs.dataFolder+" to continue.")
+    print("No data found in the"+dirs.dataFolder+" directory.\nExtract Behavior Pack data in a sub-folder of "+dirs.dataFolder+" to continue.")
     print("\nEx. "+dirs.dataFolder+"\\DATASETNAME\\(data contents)")
     exit()
 if(os.path.exists(dirs.dataDir+"\\manifest.json")):

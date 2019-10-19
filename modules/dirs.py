@@ -66,10 +66,11 @@ def package():
         json_file.close()
     with open(tempDir+datasetFolder+"\\manifest.json","w") as json_file:
         jsondata['header']['uuid'] = str(uuid.uuid4())
-        jsondata['header']['name'] = "RandomRock - Seed: "+str(seed)
+        jsondata['header']['name'] = "BERandomizer - Seed: "+str(seed)
         jsondata['header']['description'] = "Made by @InValidFire"
         jsondata['modules'][0]['uuid'] = str(uuid.uuid4())
         jsondata['modules'][0]['description'] = "Made by @InValidFire"
+        jsondata['dependencies'] = []
         json.dump(jsondata,json_file,indent=4)
         json_file.close()
     print("Archiving into .mcpack")
