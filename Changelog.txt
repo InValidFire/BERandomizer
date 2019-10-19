@@ -18,3 +18,8 @@
 - Reworked a few dirs functions
 - No longer hard coding directories
 - Now erases temp data on boot if found
+
+10/19/2019
+- Optimized recipe randomization functions
+- Fixed bug with recipe loading for 1.13
+    - Added new recipe type: minecraft:recipe_brewing_container

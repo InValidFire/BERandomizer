@@ -22,6 +22,10 @@ Personal project aimed to randomize everything possible within Minecraft Bedrock
     - Toggle automatic updates
 	- Choose file name
 	- Choose directory format
+    - Toggle recipe randomization by type
+        - Check if recipe type is in filter
+            - load - skip file
+            - scramble - delete file
 - Add data values to documentation
 - Automatically download data if nothing is found
 - More error handling
