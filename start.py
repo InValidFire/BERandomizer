@@ -1,5 +1,5 @@
 import json, os, random, time, subprocess, sys
-from modules import dirs, recipes, autoupdate
+from modules import dirs, recipes, autoupdate, settings
 from modules.debug import debug
 
 #dirsetup - making sure nothing breaks
@@ -9,11 +9,12 @@ subdirs = [o for o in os.listdir(dirs.dataDir) if os.path.isdir(os.path.join(dir
 
 #controls the header
 def header():
+    '''Draws the header at the top of the screen'''
     subprocess.run("cls",shell=True)
     print("-----BERandomizer-----")
     print("Made by @InValidFire")
     print("Version: "+autoupdate.currentString)
-    print("Automatic Updates: "+str(autoupdate.updateVar))
+    print("Automatic Updates: "+str(settings.settings['autoUpdate']))
     print("Seed: "+str(dirs.seed))
     print("Successfully loaded "+str(len(subdirs))+" dataset(s)")
     print("Selected dataset: "+str(dirs.datasetFolder.replace("\\","")))
@@ -21,6 +22,7 @@ def header():
     print("----------------------")
 
 #update check
+settings.loadSettings(dirs.dataDir+"\\settings.json")
 autoupdate.update()
 header()
 
@@ -58,11 +60,12 @@ dirs.setSeed(seed)
 #welcome screen
 header()
 print("'help' to view commands\n")
+
 #command system - move to its own file
 while(True):
     command = input("Enter a command to continue: ")
     if(command.lower()=="help"):
-        print("Available commands:\n\tseed - change the used seed\n\trandomize - start randomization process\n\texit - close program")
+        print("Available commands:\n\tseed - change the used seed\n\trandomize - start randomization process\n\tsettings - change settings for the randomizer\n\texit - close program")
     elif(command.lower()=="seed"):
         seed = input("Enter seed to generate: ")
         if(len(seed)<=0): #if seed is blank, use system time.
@@ -71,6 +74,48 @@ while(True):
         dirs.setSeed(seed)
         random.seed(seed)
         header()
+    elif(command.lower()=="settings"):
+        header()
+        for item in settings.settings:
+            print(item+" = "+str(settings.settings[item]))
+        setting = input("Which setting would you like to change? ")
+        if(setting=='autoUpdate'):
+            print("Toggling automatic updates!")
+            if(settings.settings[setting]==True):
+                settings.setUpdate(False)
+            else:
+                settings.setUpdate(True)
+            header()
+        if(setting=='recipeBlacklist'):
+            print("Types currently in blacklist: ")
+            if(len(settings.settings['recipeBlacklist'])==0):
+                print("None")
+            for item in settings.settings['recipeBlacklist']:
+                print(str(item))
+            print("\nPossible types to add: ")
+            for item in recipes.loadlist:
+                if item not in settings.settings['recipeBlacklist']:
+                    print(str(item))
+            mode = input("Would you like to add or remove a recipe type? ")
+            if(mode.lower()=="add"):
+                rtype = input("Enter the type name: ")
+                if(rtype not in settings.settings['recipeBlacklist']):
+                    if(rtype in recipes.loadlist):
+                        settings.editrecipeFilter("add",rtype)
+                    else:
+                        print("Could not find recipe type.")
+                else:
+                    print("Recipe type already blacklisted")
+            if(mode.lower()=="remove"):
+                rtype = input("Enter the type name: ")
+                if(rtype in recipes.loadlist):
+                    if(rtype in settings.settings['recipeBlacklist']):
+                        settings.editrecipeFilter("remove",rtype)
+                    else:
+                        print("Recipe type is not blacklisted")
+                else:
+                    print("Could not find recipe type.")
+        settings.writeSettings(dirs.dataDir+"\\settings.json")
     elif(command.lower()=="randomize"): #starts recipe randomizing -> modules.recipes
         header()
         print("Found "+str(dirs.countDir(dirs.dataDir+"\\"+dirs.datasetFolder+"\\recipes"))+" recipes")
@@ -83,7 +128,7 @@ while(True):
         dirs.package()
         dirs.cleanup(dirs.tempFolder)
         sys.exit()
-    elif(command.lower()=="exit"):
+    elif(command.lower()=="exit" or command.lower()=="quit"):
         sys.exit()
     else:
         print("Command not found, type 'help' for a list of commands.")
