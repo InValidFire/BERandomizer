@@ -15,17 +15,12 @@ Personal project aimed to randomize everything possible within Minecraft Bedrock
     - Input same seed, get the same results.
     - Accepts strings or numbers, go wild.
         - Y'all know how this works. :p
+- Settings
+    - Toggle automatic updates
+    - Toggle recipe randomization by type
 ## Planned Features
 - Store both resource and behavior data
 	- Needed to start randomizing blocks
-- Settings
-    - Toggle automatic updates
-	- Choose file name
-	- Choose directory format
-    - Toggle recipe randomization by type
-        - Check if recipe type is in filter
-            - load - skip file
-            - scramble - delete file
 - Add data values to documentation
 - Automatically download data if nothing is found
 - More error handling
@@ -43,6 +38,7 @@ Personal project aimed to randomize everything possible within Minecraft Bedrock
 
 ## Usage
 In order to use this, make sure y'all have Python installed, once that is done, download this repo, extract if necessary, and click on Run.bat to start the script.
+Follow the prompts on screen to get started.
 Remember to load your datasets
 
 For Automatic Updates to work, you'll need to `git clone` the repository and run it from there. If this is not done and you just download the .zip, you will not recieve Automatic Updates

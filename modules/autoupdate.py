@@ -1,13 +1,11 @@
 import subprocess, sys, os
+from modules import settings, dirs
 currentString = "Non-Git"
 branchString = "Non-Git"
-updateVar = True
-def updateToggle(mode=bool):
-    global updateVar
-    updateVar = mode
 
 def updateGit():
-    if(updateVar==True):
+    '''Checks for updates if autoUpdate is True'''
+    if(settings.settings['autoUpdate']==True):
         try: #put incase 'git' is not installed on computer
             global currentString
             global branchString
@@ -24,9 +22,13 @@ def updateGit():
             else:
                 return(False)
         except:
-            updateToggle(False)
+            settings.setUpdate(False)
+            settings.writeSettings(dirs.dataDir+"\\settings.json")
+            currentString = "Git not installed"
             return(False)
+
 def update():
+    '''Handles the user-side of installing updates'''
     if(os.path.exists('.git')==True):
         print("Checking for updates...", end="",flush=True)
         if(updateGit()==True):
@@ -40,5 +42,6 @@ def update():
         else:
             print("\tNo updates available")
     else:
-        updateToggle(False)
+        settings.setUpdate(False)
+        settings.writeSettings(dirs.dataDir+"\\settings.json")
         print("Automatic updates disabled, was not downloaded via 'git clone'.")

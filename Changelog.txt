@@ -23,3 +23,6 @@
 - Optimized recipe randomization functions
 - Fixed bug with recipe loading for 1.13
     - Added new recipe type: minecraft:recipe_brewing_container
+- Added settings command
+    - Toggle automatic updates
+    - Add/Remove items to recipe blacklist

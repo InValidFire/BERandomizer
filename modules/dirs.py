@@ -12,10 +12,12 @@ randomized = None
 vanilla = None
 
 def setSeed(value):
+    '''Sets the seed used to randomize'''
     global seed
     seed = value
 
 def setdatasetFolder(name):
+    '''Set the dataset folder to use'''
     global datasetFolder
     global randomized
     global vanilla
@@ -25,30 +27,37 @@ def setdatasetFolder(name):
     vanilla = tempDir+datasetFolder+"\\vanilla.txt"
 
 def copydir(source,dest):
+    '''Copy directory'''
     print("Copying "+source+" to "+dest)
     shutil.copytree(source,dest)
 
 def makedir(path):
+    '''Make a directory'''
     if(not os.path.exists(path)):
         os.makedirs(path)
 
 def deldir(path):
+    '''Delete a directory'''
     if(os.path.exists(home+path)):
         shutil.rmtree(home+path)
 
 def copy(source,dest):
+    '''Copy a file'''
     shutil.copy(source,dest)
 
 def countDir(path):
+    '''Count items in directory'''
     i = 0
     for item in os.listdir(path):
         i = i+1
     return i
 
 def archive(source,dest):
+    '''Archive directory'''
     shutil.make_archive(dest,"zip",source)
 
 def package():
+    '''Package into .mcpack'''
     print("Copying manifest")
     copy(home+dataFolder+datasetFolder+"\\manifest.json",tempDir+datasetFolder)
     print("Modifying manifest")
