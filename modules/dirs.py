@@ -1,4 +1,4 @@
-import os, shutil, json, uuid
+import os, shutil, json, uuid, random
 from modules.debug import debug
 home = os.getcwd()
 tempFolder = "\\tmp"
@@ -14,7 +14,8 @@ vanilla = None
 def setSeed(value):
     '''Sets the seed used to randomize'''
     global seed
-    seed = value
+    seed = str(value)
+    random.seed(seed) #oops
 
 def setdatasetFolder(name):
     '''Set the dataset folder to use'''

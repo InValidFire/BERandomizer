@@ -15,11 +15,14 @@ def header():
     print("Made by @InValidFire")
     print("Version: "+autoupdate.currentString)
     print("Automatic Updates: "+str(settings.settings['autoUpdate']))
-    print("Seed: "+str(dirs.seed))
+    print("Seed: "+dirs.seed)
     print("Successfully loaded "+str(len(subdirs))+" dataset(s)")
     print("Selected dataset: "+str(dirs.datasetFolder.replace("\\","")))
     print("WARNING: Program is in active development, no garauntee of functionality is granted")
     print("----------------------")
+
+#seed initialize
+dirs.setSeed(int(time.time()))
 
 #update check
 settings.loadSettings(dirs.dataDir+"\\settings.json")
@@ -52,10 +55,6 @@ if (len(subdirs)>1):
 elif(len(subdirs)==1):
     dirs.setdatasetFolder(subdirs[0])
     debug(dirs.datasetFolder)
-
-#seed initialize
-seed = int(time.time())
-dirs.setSeed(seed)
 
 #welcome screen
 header()
@@ -132,8 +131,3 @@ while(True):
         sys.exit()
     else:
         print("Command not found, type 'help' for a list of commands.")
-
-#pack it up! Call UPS!
-dirs.package()
-dirs.cleanup(tempDir)
-print("Completed using seed: "+str(dirs.seed))
