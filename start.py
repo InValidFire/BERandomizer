@@ -1,6 +1,16 @@
 import json, os, random, time, subprocess, sys
-from modules import dirs, recipes, autoupdate, settings
+from modules import dirs, recipes, settings
 from modules.debug import debug
+from pathlib import Path
+from ivf import files
+import ghau
+
+# automatic updates, proper this time
+VERSION = files.get_program_dir.joinpath(Path("version")).read_text()
+REPO = "InValidFire/BERandomizer"
+REBOOT = ghau.python(files.get_program_dir().joinpath(Path("start.py")))
+update = ghau.Update(VERSION, REPO, reboot=REBOOT, auth=os.getenv('GithubToken'))
+update.update()
 
 #dirsetup - making sure nothing breaks
 dirs.cleanup(dirs.tempFolder) #in case of crash in last run
@@ -13,8 +23,7 @@ def header():
     subprocess.run("cls",shell=True)
     print("-----BERandomizer-----")
     print("Made by @InValidFire")
-    print("Version: "+autoupdate.currentString)
-    print("Automatic Updates: "+str(settings.settings['autoUpdate']))
+    print(f"Version: {VERSION}")
     print("Seed: "+dirs.seed)
     print("Successfully loaded "+str(len(subdirs))+" dataset(s)")
     print("Selected dataset: "+str(dirs.datasetFolder.replace("\\","")))
@@ -26,7 +35,6 @@ dirs.setSeed(int(time.time()))
 
 #update check
 settings.loadSettings(dirs.dataDir+"\\settings.json")
-autoupdate.update()
 header()
 
 #directory handling - move to its own file
